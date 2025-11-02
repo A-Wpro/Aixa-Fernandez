@@ -3,595 +3,475 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aixa Fernandez - Web CV</title>
+    <title>Aixa Fernandez - Portfolio Interactif</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
 
     <style>
-        /* --- 1. Variables et Configuration Globale --- */
+        /* --- 1. CONFIGURATION GÉNÉRALE --- */
         :root {
-            --bg-dark: #1a202c;
-            --bg-light: #ffffff;
-            --text-light: #f7fafc;
-            --text-dark: #2d3748;
-            --accent-primary: #319795; /* Un bleu-vert (teal) */
-            --accent-secondary: #4a5568;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            --terminal-bg: #1a1a1a;
+            --terminal-text: #00ff41; /* Vert "Matrix" */
+            --terminal-prompt: #f7f7f7;
+            --gui-bg: #f4f7f6;
+            --gui-dark: #2c3e50;
+            --gui-accent: #3498db;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            background-color: var(--terminal-bg);
+            color: var(--terminal-text);
+            font-family: 'Roboto Mono', monospace;
         }
 
-        h1, h2, h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
+        /* --- 2. LE TERMINAL INTERACTIF --- */
+        #terminal-container {
+            width: 100%;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
         }
 
-        h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            border-bottom: 3px solid var(--accent-primary);
+        #output {
+            white-space: pre-wrap; /* Respecte les retours à la ligne */
+            word-wrap: break-word;
+        }
+
+        .prompt {
+            color: var(--gui-accent);
+        }
+
+        .prompt-user {
+            color: var(--terminal-prompt);
+        }
+
+        .input-line {
+            display: flex;
+        }
+        
+        #input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: var(--terminal-prompt);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1em;
+        }
+        
+        #input:focus {
+            outline: none;
+        }
+
+        /* Curseur qui clignote */
+        .cursor {
             display: inline-block;
-            padding-bottom: 0.5rem;
+            width: 10px;
+            height: 1.2em;
+            background: var(--terminal-text);
+            margin-left: 5px;
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            from, to { background-color: transparent }
+            50% { background-color: var(--terminal-text) }
         }
 
-        section {
-            padding: 100px 5%; /* 100px de padding haut/bas pour l'espace */
+        /* Classes pour le style de la sortie */
+        .cmd-output {
+            color: var(--terminal-prompt);
+        }
+        .cmd-output strong {
+            color: var(--gui-accent);
+        }
+        .cmd-output h3 {
+            color: var(--terminal-text);
+            text-decoration: underline;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+        
+        /* --- 3. LE SITE "GUI" (Caché par défaut) --- */
+        #gui-container {
+            display: none; /* Caché au démarrage ! */
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gui-bg);
+            color: var(--gui-dark);
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+
+        /* (On réutilise le style de la V2, car il est efficace) */
+        #gui-container .section {
+            padding: 100px 5%;
             min-height: 80vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
-
-        /* --- 2. Barre de Navigation --- */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: center;
-            padding: 1rem 0;
-            z-index: 1000;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
-            margin: 0 1.5rem;
-            padding-bottom: 5px;
-            transition: color 0.3s, border-bottom 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--accent-primary);
-            border-bottom: 2px solid var(--accent-primary);
-        }
-
-        /* --- 3. Section Accueil (Hero) --- */
-        #accueil {
-            min-height: 100vh;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            text-align: center;
-        }
-
-        #accueil h1 {
-            font-size: 4rem;
-        }
-
-        #accueil .subtitle {
-            font-size: 1.5rem;
-            color: var(--accent-primary);
-            margin: 0.5rem 0 1.5rem 0;
-        }
-
-        #accueil .objective {
-            font-size: 1.1rem;
-            max-width: 600px;
+        
+        #gui-container h2 {
+            font-size: 2.5rem;
             margin-bottom: 2rem;
-            font-style: italic;
-            font-weight: 300;
-        }
-
-        .cta-button {
+            text-align: center;
+            border-bottom: 3px solid var(--gui-accent);
             display: inline-block;
-            background-color: var(--accent-primary);
-            color: var(--text-light);
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 600;
-            transition: background-color 0.3s, transform 0.3s;
+            padding-bottom: 0.5rem;
         }
-
-        .cta-button:hover {
-            background-color: #2c7a7b;
-            transform: translateY(-3px);
-        }
-
-        /* --- 4. Section "À Propos" / Compétences --- */
-        #competences {
-            background-color: #f7fafc;
-        }
-
-        .skills-container {
+        
+        #gui-container .grid-3 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             width: 100%;
             max-width: 1200px;
         }
-
-        .skill-card {
-            background: var(--bg-light);
+        
+        #gui-container .card {
+            background: #ffffff;
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-left: 5px solid var(--accent-primary);
+            border-left: 5px solid var(--gui-accent);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
 
-        .skill-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+        /* L'animation d'apparition pour le GUI */
+        #gui-container.visible {
+            opacity: 1;
         }
-
-        .skill-card ul {
-            list-style: none;
+        #gui-container.visible .card {
+            opacity: 1;
+            transform: translateY(0);
         }
-
-        .skill-card li {
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
+        #gui-container.visible .card:nth-child(1) { transition-delay: 0.2s; }
+        #gui-container.visible .card:nth-child(2) { transition-delay: 0.4s; }
+        #gui-container.visible .card:nth-child(3) { transition-delay: 0.6s; }
+        #gui-container.visible .card:nth-child(4) { transition-delay: 0.8s; }
+        #gui-container.visible .card:nth-child(5) { transition-delay: 1.0s; }
         
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .tag {
-            background: #edf2f7;
-            color: var(--text-dark);
+        #gui-container .tag {
+            background: #e0eafc;
+            color: var(--gui-dark);
             padding: 0.25rem 0.75rem;
             border-radius: 15px;
             font-size: 0.9rem;
             font-weight: 500;
+            display: inline-block;
+            margin: 2px;
         }
 
-        /* --- 5. Sections Formation & Expériences (Timeline) --- */
-        .timeline {
-            position: relative;
-            width: 100%;
-            max-width: 1000px;
-            margin-top: 2rem;
+        /* Bouton pour revenir au terminal */
+        .gui-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--gui-dark);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1001;
+            font-family: 'Roboto Mono', monospace;
         }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            top: 0;
-            width: 3px;
-            height: 100%;
-            background-color: #e2e8f0;
-        }
-
-        .timeline-item {
-            position: relative;
-            width: 50%;
-            margin-bottom: 40px;
-        }
-
-        .timeline-item:nth-child(odd) {
-            left: 0;
-            padding-right: 40px;
-            text-align: right;
-        }
-
-        .timeline-item:nth-child(even) {
-            left: 50%;
-            padding-left: 40px;
-        }
-
-        /* Le point sur la timeline */
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            top: 5px;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background: var(--bg-light);
-            border: 3px solid var(--accent-primary);
-            z-index: 1;
-        }
-
-        .timeline-item:nth-child(odd)::after {
-            right: -8px;
-        }
-
-        .timeline-item:nth-child(even)::after {
-            left: -8px;
-        }
-
-        .timeline-content {
-            background: var(--bg-light);
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-
-        .timeline-content h3 {
-            font-size: 1.3rem;
-            color: var(--accent-primary);
-        }
-
-        .timeline-content .date {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--accent-secondary);
-            margin: 0.5rem 0;
-        }
-
-        .timeline-content .location {
-            font-style: italic;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-content p {
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* --- 6. Section Projets --- */
-        #projets {
-             background-color: #f7fafc;
-        }
+        .gui-switch:hover { background: var(--gui-accent); }
         
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        .project-card {
-            background: var(--bg-light);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            padding: 1.5rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-
-        .project-card h3 {
-            color: var(--accent-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .project-card p {
-            font-size: 0.95rem;
-        }
-
-        /* --- 7. Section Contact --- */
-        #contact {
-            text-align: center;
-        }
-
-        #contact p {
-            font-size: 1.2rem;
-            max-width: 500px;
-            margin-bottom: 2rem;
-        }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-        }
-
-        .contact-links a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: color 0.3s;
-        }
-
-        .contact-links a:hover {
-            color: var(--accent-primary);
-        }
-
-        .contact-links i {
-            font-size: 1.8rem;
-        }
-        
-        /* --- 8. Animation de défilement (Scroll) --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .reveal.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* --- 9. Responsive Design --- */
-        @media (max-width: 768px) {
-            nav {
-                justify-content: space-around;
-            }
-            nav a {
-                margin: 0 0.5rem;
-                font-size: 0.8rem;
-            }
-            
-            #accueil h1 {
-                font-size: 2.5rem;
-            }
-            #accueil .subtitle {
-                font-size: 1.2rem;
-            }
-
-            h2 {
-                font-size: 2rem;
-            }
-
-            /* Centre la timeline sur mobile */
-            .timeline::before {
-                left: 20px;
-            }
-            .timeline-item {
-                width: 100%;
-                left: 0 !important;
-                padding-left: 50px !important;
-                padding-right: 0 !important;
-                text-align: left !important;
-            }
-            .timeline-item::after {
-                left: 12px !important;
-            }
-        }
-
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="#accueil">Accueil</a>
-        <a href="#competences">Compétences</a>
-        <a href="#experiences">Expériences</a>
-        <a href="#formation">Formation</a>
-        <a href="#projets">Projets</a>
-        <a href="#contact">Contact</a>
-    </nav>
+    <div id="terminal-container">
+        <div id="output"></div>
+        <div class="input-line">
+            <span class="prompt">recruteur@aixa-fernandez.dev</span>:<span class="prompt-user">~</span>$ 
+            <input type="text" id="input" autofocus>
+            <div class="cursor"></div>
+        </div>
+    </div>
 
-    <section id="accueil">
-        <h1>Aixa FERNANDEZ</h1>
-        <p class="subtitle">Profil International & Multilingue | Master Énergie</p>
-        <p class="objective reveal">
-            Étudiante sérieuse, cherchant un stage de 2-4 mois à partir de mai au sein de votre entreprise tout en préparant le Master Energie.
-        </p>
-        <a href="#experiences" class="cta-button">Voir mon parcours</a>
-    </section>
+    <div id="gui-container">
+        <div class="gui-switch" onclick="switchToTerminal()">
+            &lt; Mode Terminal
+        </div>
 
-    <section id="competences">
-        <h2 class="reveal">Compétences & Atouts</h2>
-        <div class="skills-container">
-            
-            <div class="skill-card reveal">
-                <h3>Compétences Techniques</h3>
-                <div class="skill-tags">
+        <div class="section" style="padding-top: 150px; background: var(--gui-dark); color: #fff;">
+            <h2 style="border-color: #fff;">Aixa FERNANDEZ</h2>
+            <p style="font-size: 1.2rem; text-align: center; max-width: 600px;">
+                Étudiante sérieuse de profil international et multilingue, cherchant un stage de 2-4 mois à partir de mai au sein de votre entreprise tout en préparant le Master Energie.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Compétences Techniques</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Programmation & Logiciels</h3>
+                    <span class="tag">Python</span>
                     <span class="tag">Langage C</span>
                     <span class="tag">Matlab</span>
-                    <span class="tag">Python</span>
                     <span class="tag">CAO (Inventor)</span>
-                    <span class="tag">Génie Électrique</span>
+                </div>
+                <div class="card">
+                    <h3>Domaines (Master)</h3>
                     <span class="tag">Technologies Hydrogène</span>
                     <span class="tag">Électrochimie</span>
                     <span class="tag">Photovoltaïque</span>
+                    <span class="tag">Géothermie</span>
+                    <span class="tag">Thermique</span>
+                </div>
+                <div class="card">
+                    <h3>Gestion & Droit</h3>
+                    <span class="tag">Gestion de Projets</span>
+                    <span class="tag">Impact Environnemental</span>
+                    <span class="tag">Droit de l'Énergie</span>
                 </div>
             </div>
-
-            <div class="skill-card reveal">
-                <h3>Atouts Majeurs</h3>
-                <ul>
-                    <li><i class="fas fa-rocket" style="color: var(--accent-primary);"></i> Dynamisme</li>
-                    <li><i class="fas fa-lightbulb" style="color: var(--accent-primary);"></i> Prise d'initiatives</li>
-                    <li><i class="fas fa-search" style="color: var(--accent-primary);"></i> Esprit d'analyse et pensée critique</li>
-                    <li><i class="fas fa-check-circle" style="color: var(--accent-primary);"></i> Résolution de problèmes</li>
-                </ul>
-            </div>
-
-            <div class="skill-card reveal">
-                <h3>Langues</h3>
-                <ul>
-                    <li><strong>Français:</strong> Niveau C2</li>
-                    <li><strong>Anglais:</strong> Bilingue</li>
-                    <li><strong>Espagnol:</strong> Bilingue</li>
-                    <li><strong>Allemand:</strong> Niveau A2</li>
-                </ul>
-            </div>
-            
         </div>
-    </section>
-
-    <section id="experiences">
-        <h2 class="reveal">Expériences Professionnelles</h2>
-        <div class="timeline">
-
-            <div class="timeline-item reveal">
-                <div class="timeline-content">
-                    <h3>Professeur des Cours Particulier</h3>
-                    <div class="date">Septembre 2025 - Présent</div>
-                    <div class="location">Anacours, Montpellier</div>
-                    <p>Cours à domicile en mathématiques (niveau 3ème), aide aux devoirs et préparation aux examens.</p>
+        
+        <div class="section" style="background: #fff;">
+            <h2>Expériences & Formation</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Professeur (2025-Présent)</h3>
+                    <p>Dispense de cours à domicile en mathématiques (niveau 3ème) chez Anacours.</p>
+                </div>
+                <div class="card">
+                    <h3>Stage Opératrice (2024)</h3>
+                    <p>Stage chez L&L Products. Préparation, emballage, et contrôle de conformité.</p>
+                </div>
+                 <div class="card">
+                    <h3>Master Energie (2025-2027)</h3>
+                    <p>Université de Montpellier. Gestion, Sources, Stockage, et Conversion d'Énergie.</p>
+                </div>
+                <div class="card">
+                    <h3>Serveuse Polyvalente (2023-2024)</h3>
+                    <p>Extra au Boma Hotel. Service à table multilingue.</p>
+                </div>
+                <div class="card">
+                    <h3>Polyvalente (2020-2021)</h3>
+                    <p>Atria Retirement Canada. Accueil et services aux résidents.</p>
+                </div>
+                <div class="card">
+                    <h3>Licence Ingénieur (2022-2025)</h3>
+                    <p>Université de Strasbourg. Mention Mécanique et Génie Industrielle.</p>
                 </div>
             </div>
-
-            <div class="timeline-item reveal">
-                <div class="timeline-content">
-                    <h3>Stage Opératrice</h3>
-                    <div class="date">Mai 2024 - Juin 2024</div>
-                    <div class="location">L&L Products, Altorf</div>
-                    <p>Préparation et emballage de produits, réapprovisionnement, maintien du rythme de production et contrôles de conformité.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item reveal">
-                <div class="timeline-content">
-                    <h3>Extra Serveuse Polyvalente</h3>
-                    <div class="date">Septembre 2023 - Janvier 2024</div>
-                    <div class="location">Boma Hotel, Strasbourg</div>
-                    <p>Service à table en équipe et en plusieurs langues, service en chambre.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item reveal">
-                <div class="timeline-content">
-                    <h3>Polyvalente</h3>
-                    <div class="date">Août 2020 - Juillet 2021</div>
-                    <div class="location">Atria Retirement Canada, Calgary</div>
-                    <p>Accueil des résidents, services de restauration et facilitation du quotidien.</p>
-                </div>
-            </div>
-
         </div>
-    </section>
 
-    <section id="formation">
-        <h2 class="reveal">Formation</h2>
-        <div class="timeline">
-
-            <div class="timeline-item reveal">
-                <div class="timeline-content">
-                    <h3>Master Energie</h3>
-                    <div class="date">2025 - 2027</div>
-                    <div class="location">Université de Montpellier</div>
-                    <p>Gestion, Sources, Stockage, et Conversion d'Énergie. Focus sur électrochimie, thermique, géothermie et photovoltaïque.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item reveal">
-                <div class="timeline-content">
-                    <h3>Licence Sciences pour L'Ingénieur</h3>
-                    <div class="date">2022 - 2025</div>
-                    <div class="location">Université de Strasbourg</div>
-                    <p>Mention Mécanique et Génie Industriel. Projets en C, Matlab, Python. Modélisation CAO sur Inventor.</p>
-                </div>
-            </div>
-
-        </div>
-    </section>
-    
-    <section id="projets">
-        <h2 class="reveal">Projets & Bénévolat</h2>
-        <div class="projects-grid">
-            
-            <div class="project-card reveal">
-                <h3>Projet : Système d'Arrosage Intelligent</h3>
-                <p>Élaboration d'un système intelligent d'arrosage avec Arduino en Langage C.</p>
-            </div>
-            
-            <div class="project-card reveal">
-                <h3>Projet : Maquette Pédagogique</h3>
-                <p>Conception et production d'une maquette pédagogique d'un système d'encre à escapement.</p>
-            </div>
-            
-            <div class="project-card reveal">
-                <h3>Bénévolat (2018-2021, Calgary)</h3>
-                <ul>
-                    <li><strong>Banque Alimentaire:</strong> Préparation de paniers alimentaires.</li>
-                    <li><strong>Feed The Hungry:</strong> Distribution de repas gratuits.</li>
-                    <li><strong>Bibliothèque Publique:</strong> Mentorat en littérature pour enfants.</li>
-                </ul>
-            </div>
-            
-        </div>
-    </section>
-
-    <section id="contact">
-        <h2 class="reveal">Contact</h2>
-        <p class="reveal">N'hésitez pas à me contacter pour toute opportunité de stage ou pour échanger.</p>
-        <div class="contact-links reveal">
-            <a href="mailto:Aixa.sf1@gmail.com">
-                <i class="fas fa-envelope"></i>
-                <span>Aixa.sf1@gmail.com</span>
-            </a>
-            <a href="https://www.linkedin.com/in/aixa-fernandez-624a96277" target="_blank">
-                <i class="fab fa-linkedin"></i>
-                <span>LinkedIn</span>
-            </a>
-            <a href="tel:0750719799">
-                <i class="fas fa-phone"></i>
-                <span>07 50 71 97 99</span>
-            </a>
-        </div>
-    </section>
+    </div>
 
     <script>
-        // Logique pour l'animation au défilement
+        // Références aux éléments
+        const terminal = document.getElementById('terminal-container');
+        const gui = document.getElementById('gui-container');
+        const output = document.getElementById('output');
+        const input = document.getElementById('input');
+
+        // --- Définition des "fichiers" de votre CV ---
+        const commands = {
+            'help': `
+Commandes disponibles :
+  <strong>whoami</strong>         - Affiche l'objectif.
+  <strong>ls</strong>               - Liste les sections du CV.
+  <strong>cat [section]</strong>    - Affiche le contenu d'une section.
+     (ex: 'cat competences.py')
+  <strong>contact</strong>        - Affiche les informations de contact.
+  <strong>gui</strong>              - Bascule vers l'interface graphique.
+  <strong>clear</strong>          - Efface l'écran.
+            `,
+            'whoami': `
+<strong>Aixa FERNANDEZ</strong>
+Étudiante sérieuse de profil international et multilingue, cherchant un stage de 2-4 mois à partir de mai au sein de votre entreprise tout en préparant le Master Energie.
+            `,
+            'ls': `
+permissions  user  date      nom_fichier
+drw-r--r--   aixa  Oct 2025  <strong>competences.py</strong>
+drw-r--r--   aixa  Oct 2025  <strong>experiences.log</strong>
+drw-r--r--   aixa  Oct 2025  <strong>formation.md</strong>
+drw-r--r--   aixa  Oct 2025  <strong>projets.json</strong>
+            `,
+            'cat competences.py': `
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+class Competences:
+    def __init__(self):
+        self.techniques = {
+            "programmation": ["Python", "Langage C", "Matlab"],
+            "ingenierie": ["CAO (Inventor)", "Génie Électrique"],
+            "energie": ["Technologies Hydrogène", "Électrochimie", "Photovoltaïque", "Géothermie"]
+        }
+        self.atouts = ["Dynamisme", "Prise d'initiatives", "Esprit d'analyse", "Résolution de problèmes"]
+        self.langues = {
+            "Français": "C2",
+            "Anglais": "Bilingue",
+            "Espagnol": "Bilingue",
+            "Allemand": "A2"
+        }
+
+print(Competences().__dict__)
+            `,
+            'cat experiences.log': `
+[2025-Présent] Professeur Particulier @ Anacours (Montpellier)
+  - Cours de mathématiques niveau 3ème.
+  - Aide aux devoirs et préparation examens.
+
+[2024-05 - 2024-06] Stage Opératrice @ L&L Products (Altorf)
+  - Préparation et emballage selon OF.
+  - Contrôle de conformité et maintien du rythme de production.
+
+[2023-09 - 2024-01] Extra Serveuse Polyvalente @ Boma Hotel (Strasbourg)
+  - Service à table multilingue en équipe.
+
+[2020-08 - 2021-07] Polyvalente @ Atria Retirement Canada (Calgary)
+  - Accueil des résidents et services de restauration.
+            `,
+            'cat formation.md': `
+# Cursus Académique
+
+### Master Energie (2025-2027)
+- **Université de Montpellier**
+- Gestion, Sources, Stockage, et Conversion d'Énergie.
+- *Modules clés*: Conversion, stockage, efficacité énergétique, électrochimie, thermique, géothermie, photovoltaïque, droit de l'énergie.
+
+### Licence Sciences pour L'Ingénieur (2022-2025)
+- **Université de Strasbourg**
+- Mention Mécanique et Génie Industrielle.
+- *Modules clés*: Mécanique des fluides, RDM, dynamique, électronique, informatique (C, Matlab, Python), CAO (Inventor).
+            `,
+            'cat projets.json': `
+{
+  "projets_realises": [
+    {
+      "titre": "Système d'arrosage intelligent",
+      "technologie": "Arduino",
+      "langage": "Langage C"
+    },
+    {
+      "titre": "Maquette pédagogique",
+      "description": "Conception et production d'un système d'encre à escapement."
+    }
+  ],
+  "benevolat": [
+    {
+      "organisation": "Banque Alimentaire de Calgary (2018-2021)",
+      "mission": "Élaboration de paniers alimentaires."
+    },
+    {
+      "organisation": "Feed The Hungry, St. Marie Calgary",
+      "mission": "Distribution de repas gratuits pour les sans-abri."
+    }
+  ]
+}
+            `,
+            'contact': `
+Email:   <strong>Aixa.sf1@gmail.com</strong>
+Tél:     <strong>07 50 71 97 99</strong>
+LinkedIn: <strong>linkedin.com/in/aixa-fernandez-624a96277</strong>
+Localisation: <strong>34790 Grabels</strong>
+            `,
+            'gui': `
+Lancement de l'interface graphique...
+            `,
+            'clear': ''
+        };
+
+        // --- LOGIQUE DU TERMINAL ---
+
+        // Démarrage : Séquence de boot
         document.addEventListener('DOMContentLoaded', () => {
+            const bootSequence = [
+                "Initialisation AixaOS v1.0...",
+                "Chargement du noyau...",
+                "Compilation des modules de compétences... OK",
+                "Connexion au réseau... OK",
+                "Système prêt.",
+                "",
+                "Bienvenue, recruteur.",
+                "Tapez '<strong>help</strong>' pour voir la liste des commandes.",
+                "Tapez '<strong>gui</strong>' pour une expérience visuelle."
+            ];
             
-            // 1. Sélectionner tous les éléments à animer
-            const elementsToReveal = document.querySelectorAll('.reveal');
-
-            // 2. Créer l'observateur d'intersection
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    // Si l'élément est dans la vue
-                    if (entry.isIntersecting) {
-                        // Ajouter la classe 'is-visible' pour déclencher l'animation
-                        entry.target.classList.add('is-visible');
-                        // Optionnel: arrêter d'observer cet élément après l'animation
-                        revealObserver.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1 // Déclenche quand 10% de l'élément est visible
-            });
-
-            // 3. Demander à l'observateur de surveiller chaque élément
-            elementsToReveal.forEach(element => {
-                revealObserver.observe(element);
-            });
+            let i = 0;
+            function typeBoot() {
+                if (i < bootSequence.length) {
+                    appendOutput(bootSequence[i], 'cmd-output');
+                    i++;
+                    setTimeout(typeBoot, 150 + Math.random() * 100);
+                } else {
+                    input.focus();
+                }
+            }
+            typeBoot();
         });
-    </script>
 
+        // Gérer la commande de l'utilisateur
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const command = input.value.trim();
+                
+                // Affiche la commande tapée
+                appendOutput(`<span class="prompt">recruteur@aixa-fernandez.dev</span>:<span class="prompt-user">~</span>$ ${command}`);
+                
+                if (command === 'clear') {
+                    output.innerHTML = ''; // Efface tout
+                } else if (command === 'gui') {
+                    appendOutput(commands[command], 'cmd-output');
+                    setTimeout(switchToGui, 500);
+                } else if (commands[command]) {
+                    appendOutput(commands[command], 'cmd-output');
+                } else if (command.startsWith('cat ')) {
+                    const file = command.substring(4);
+                    if (commands['cat ' + file]) {
+                        appendOutput(commands['cat ' + file], 'cmd-output');
+                    } else {
+                        appendOutput(`Erreur: Fichier '${file}' non trouvé. Tapez 'ls' pour voir les fichiers.`, 'cmd-output');
+                    }
+                } else {
+                    appendOutput(`Erreur: Commande '${command}' non reconnue. Tapez 'help'.`, 'cmd-output');
+                }
+                
+                input.value = ''; // Vide l'input
+                terminal.scrollTop = terminal.scrollHeight; // Scroll auto en bas
+            }
+        });
+
+        // Fonction pour ajouter du texte à la sortie
+        function appendOutput(text, className = '') {
+            const div = document.createElement('div');
+            if (className) div.classList.add(className);
+            div.innerHTML = text; // innerHTML pour interpréter le <strong> etc.
+            output.appendChild(div);
+        }
+
+        // --- LOGIQUE DE TRANSITION ---
+
+        function switchToGui() {
+            terminal.style.display = 'none';
+            gui.style.display = 'block';
+            // Force le navigateur à recalculer les styles pour que la transition fonctionne
+            setTimeout(() => {
+                gui.classList.add('visible');
+            }, 50); 
+        }
+
+        function switchToTerminal() {
+            gui.classList.remove('visible');
+            gui.style.display = 'none';
+            terminal.style.display = 'block';
+            input.focus();
+        }
+
+    </script>
 </body>
 </html>
