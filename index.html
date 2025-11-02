@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Aixa Fernandez</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Réinitialisation et configuration de base --- */
+        :root {
+            --sidebar-bg: #2c3e50;
+            --main-bg: #f4f7f6;
+            --text-light: #ecf0f1;
+            --text-dark: #34495e;
+            --header-color: #1a252f;
+            --accent-color: #3498db;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        /* --- Barre latérale (Sidebar) --- */
+        .sidebar {
+            width: 35%;
+            background-color: var(--sidebar-bg);
+            color: var(--text-light);
+            padding: 40px 30px;
+        }
+
+        .sidebar h2 {
+            color: var(--text-light);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+        }
+
+        .contact-info a {
+            color: var(--text-light);
+            text-decoration: none;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 8px;
+        }
+
+        .languages .lang-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        /* --- Contenu principal --- */
+        .main-content {
+            width: 65%;
+            background-color: #ffffff;
+            padding: 40px;
+        }
+
+        header {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            color: var(--header-color);
+            margin-bottom: 10px;
+        }
+
+        header .objective {
+            font-size: 1.1em;
+            font-style: italic;
+            color: var(--text-dark);
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 1.8em;
+            color: var(--header-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        .item {
+            margin-bottom: 25px;
+        }
+
+        .item h3 {
+            font-size: 1.3em;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+
+        .item .sub-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .item .location {
+            font-style: italic;
+        }
+
+        .item ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar, .main-content {
+                width: 100%;
+            }
+
+            .sidebar {
+                padding: 30px;
+            }
+
+            .main-content {
+                padding: 30px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <aside class="sidebar">
+            
+            <section class="contact-info">
+                <h2>Coordonnées</h2>
+                [cite_start]<p>📍 34790 Grabels [cite: 8]</p>
+                [cite_start]<p>📞 07 50 71 97 99 [cite: 9]</p>
+                [cite_start]<p>📧 <a href="mailto:Aixa.sf1@gmail.com">Aixa.sf1@gmail.com [cite: 9]</a></p>
+                [cite_start]<p>🔗 <a href="https://www.linkedin.com/in/aixa-fernandez-624a96277" target="_blank">linkedin.com/in/aixa-fernandez [cite: 3]</a></p>
+            </section>
+
+            <section class="languages">
+                <h2>Langues</h2>
+                <ul>
+                    [cite_start]<li class="lang-item"><span>Français</span> <strong>Niveau C2 [cite: 11]</strong></li>
+                    [cite_start]<li class="lang-item"><span>Anglais</span> <strong>Bilingue [cite: 11]</strong></li>
+                    [cite_start]<li class="lang-item"><span>Espagnol</span> <strong>Bilingue [cite: 11]</strong></li>
+                    [cite_start]<li class="lang-item"><span>Allemand</span> <strong>Niveau A2 [cite: 12]</strong></li>
+                </ul>
+            </section>
+
+            <section class="strengths">
+                <h2>Atouts Majeurs</h2>
+                <ul>
+                    [cite_start]<li>Dynamisme [cite: 14]</li>
+                    [cite_start]<li>Prise d'initiatives [cite: 15]</li>
+                    [cite_start]<li>Esprit d'analyse et pensée critique [cite: 16]</li>
+                    [cite_start]<li>Résolution de problèmes [cite: 17]</li>
+                </ul>
+            </section>
+
+            <section class="interests">
+                <h2>Intérêts</h2>
+                <ul>
+                    [cite_start]<li>Danse - 9 ans (dont 3 en compétition en équipe) [cite: 25]</li>
+                    [cite_start]<li>Badminton - 3 ans [cite: 26]</li>
+                    [cite_start]<li>Voyage [cite: 27]</li>
+                </ul>
+            </section>
+
+        </aside>
+
+        <main class="main-content">
+            
+            <header>
+                [cite_start]<h1>Aixa FERNANDEZ [cite: 1]</h1>
+                <p class="objective">
+                    [cite_start]Étudiante sérieuse de profil international et multilingue, cherchant un stage de 2-4 mois à partir de mai au sein de votre entreprise tout en préparant le Master Energie. [cite: 4]
+                </p>
+            </header>
+
+            <section class="section">
+                <h2>Expériences Professionnelles</h2>
+                
+                <article class="item">
+                    [cite_start]<h3>Professeur des Cours Particulier [cite: 29]</h3>
+                    <div class="sub-header">
+                        [cite_start]<span>Anacours [cite: 29]</span>
+                        [cite_start]<span class="location">Montpellier [cite: 30]</span>
+                        [cite_start]<span>Septembre 2025 - Présent [cite: 30]</span>
+                    </div>
+                    <ul>
+                        [cite_start]<li>Dispenser des cours à domicile en mathématiques adaptés aux besoins et au rythme d'une élève en 3ème. [cite: 31]</li>
+                        [cite_start]<li>Contribuer à l'aide aux devoirs et à la préparation des sujets d'examen. [cite: 32]</li>
+                    </ul>
+                </article>
+
+                <article class="item">
+                    [cite_start]<h3>Stage Opératrice [cite: 33]</h3>
+                    <div class="sub-header">
+                        [cite_start]<span>L&L Products [cite: 33]</span>
+                        [cite_start]<span class="location">Altorf [cite: 34]</span>
+                        [cite_start]<span>Mai 2024 - Juin 2024 [cite: 34]</span>
+                    </div>
+                    <ul>
+                        [cite_start]<li>Préparer et emballer les produits selon les specifications de l'OF, tout en assurant le reapprovisionnement constant du matériel nécessaire. [cite: 35]</li>
+                        [cite_start]<li>Maintenir le rythme de production et effectuer des controles de conformite sur les produits tout au long du processus. [cite: 36]</li>
+                    </ul>
+                </article>
+
+                <article class="item">
+                    [cite_start]<h3>Extra Serveuse Polyvalente [cite: 37]</h3>
+                    <div class="sub-header">
+                        [cite_start]<span>Boma Hotel [cite: 37]</span>
+                        [cite_start]<span class="location">Strasbourg [cite: 38]</span>
+                        [cite_start]<span>Septembre 2023 - Janvier 2024 [cite: 38]</span>
+                    </div>
+                    <ul>
+                        [cite_start]<li>Travailler en équipe pour accomplir un service à table du début à la fin en plusieurs langues. [cite: 39]</li>
+                        [cite_start]<li>Service du repas aux chambres. [cite: 40]</li>
+                    </ul>
+                </article>
+
+                <article class="item">
+                    [cite_start]<h3>Polyvalente [cite: 41]</h3>
+                    <div class="sub-header">
+                        [cite_start]<span>Atria Retirement Canada [cite: 41]</span>
+                        [cite_start]<span class="location">Calgary [cite: 42]</span>
+                        [cite_start]<span>Août 2020 - Juillet 2021 [cite: 42]</span>
+                    </div>
+                    <ul>
+                        [cite_start]<li>Accueil des residents et services pour faciliter leur quotidien. [cite: 43]</li>
+                        [cite_start]<li>Tâches en services de restauration. [cite: 43]</li>
+                    </ul>
+                </article>
+
+            </section>
+
+            <section class="section">
+                <h2>Formation</h2>
+
+                <article class="item">
+                    [cite_start]<h3>Master Energie [cite: 6]</h3>
+                    <div class="sub-header">
+                        [cite_start]<span>Université de Montpellier [cite: 6]</span>
+                        [cite_start]<span>2025 - 2027 [cite: 6]</span>
+                    </div>
+                    [cite_start]<p>Gestion, Sources, Stockage, et Conversion d'Énergie. [cite: 6]</p>
+                    <ul>
+                        [cite_start]<li>Enseignement en conversion, stockage et efficacité énergétique. [cite: 6]</li>
+                        [cite_start]<li>Connaissances en électrochimie, thermique, géothermie et photovoltaïque. [cite: 6]</li>
+                        [cite_start]<li>Projets sur bases de données, génie électrique et technologies hydrogène. [cite: 6]</li>
+                        [cite_start]<li>Compétences en gestion de projets, impact environnemental et droit de l'énergie. [cite: 6]</li>
+                    </ul>
+                </article>
+
+                <article class="item">
+                    [cite_start]<h3>Licence Sciences pour L'Ingénieur [cite: 6]</h3>
+                    <div class="sub-header">
+                        [cite_start]<span>Université de Strasbourg [cite: 6]</span>
+                        [cite_start]<span>2022 - 2025 [cite: 6]</span>
+                    </div>
+                    [cite_start]<p>Mention Mécanique et Génie Industrielle [cite: 6]</p>
+                    <ul>
+                        [cite_start]<li>Formation initiale théorique et pratique dans l'électronique et la mécanique. [cite: 6]</li>
+                        [cite_start]<li>Enseignement en mécanique des fluides, du point et solides, dynamique, et RDM. [cite: 6]</li>
+                        [cite_start]<li>Réalisation des projets en informatique utilisant langage C, Matlab et Python. [cite: 6]</li>
+                        [cite_start]<li>Modélisation CAO sur Inventor et conception des produits. [cite: 6]</li>
+                    </ul>
+                </article>
+            </section>
+
+            <section class="section">
+                <h2>Projets Réalisés</h2>
+                <ul>
+                    [cite_start]<li>Élaboration d'un système intelligent d'arrosage avec arduino en Langage C. [cite: 19, 20, 21]</li>
+                    [cite_start]<li>Conception et production d'une maquette pédagogique d'un système d'encre à escapement. [cite: 22, 23]</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Bénévolat</h2>
+                <div class="sub-header">
+                    <span class="location">Calgary</span>
+                    [cite_start]<span>Septembre 2018 - Novembre 2021 [cite: 45]</span>
+                </div>
+                <ul>
+                    [cite_start]<li>**Banque Alimentaire de Calgary:** Collaborer en equipe pour l'elaboration de paniers alimentaires pour les familles à faible revenu. [cite: 46]</li>
+                    [cite_start]<li>**Feed The Hungry, L'Église de St. Marie Calgary:** Préparation en équipe pour la distribution de repas gratuits pour les sans abri et les personnes économiquement desavantagees. [cite: 47]</li>
+                    [cite_start]<li>**Bibliotheque Publique de Calgary:** Mentorat pour encourager des enfants à s'intéresser à la littérature via des activités ludiques. [cite: 48]</li>
+                </ul>
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+</html>
