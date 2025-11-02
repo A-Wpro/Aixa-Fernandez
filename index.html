@@ -176,4 +176,422 @@
         .tag {
             background: #edf2f7;
             color: var(--text-dark);
-            padding: 0.25
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* --- 5. Sections Formation & Expériences (Timeline) --- */
+        .timeline {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background-color: #e2e8f0;
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            margin-bottom: 40px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 40px;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            padding-left: 40px;
+        }
+
+        /* Le point sur la timeline */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--bg-light);
+            border: 3px solid var(--accent-primary);
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(odd)::after {
+            right: -8px;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -8px;
+        }
+
+        .timeline-content {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.3rem;
+            color: var(--accent-primary);
+        }
+
+        .timeline-content .date {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--accent-secondary);
+            margin: 0.5rem 0;
+        }
+
+        .timeline-content .location {
+            font-style: italic;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- 6. Section Projets --- */
+        #projets {
+             background-color: #f7fafc;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .project-card {
+            background: var(--bg-light);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .project-card h3 {
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card p {
+            font-size: 0.95rem;
+        }
+
+        /* --- 7. Section Contact --- */
+        #contact {
+            text-align: center;
+        }
+
+        #contact p {
+            font-size: 1.2rem;
+            max-width: 500px;
+            margin-bottom: 2rem;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .contact-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .contact-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .contact-links i {
+            font-size: 1.8rem;
+        }
+        
+        /* --- 8. Animation de défilement (Scroll) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* --- 9. Responsive Design --- */
+        @media (max-width: 768px) {
+            nav {
+                justify-content: space-around;
+            }
+            nav a {
+                margin: 0 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            #accueil h1 {
+                font-size: 2.5rem;
+            }
+            #accueil .subtitle {
+                font-size: 1.2rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            /* Centre la timeline sur mobile */
+            .timeline::before {
+                left: 20px;
+            }
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 50px !important;
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+            .timeline-item::after {
+                left: 12px !important;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#accueil">Accueil</a>
+        <a href="#competences">Compétences</a>
+        <a href="#experiences">Expériences</a>
+        <a href="#formation">Formation</a>
+        <a href="#projets">Projets</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section id="accueil">
+        <h1>Aixa FERNANDEZ</h1>
+        <p class="subtitle">Profil International & Multilingue | Master Énergie</p>
+        <p class="objective reveal">
+            Étudiante sérieuse, cherchant un stage de 2-4 mois à partir de mai au sein de votre entreprise tout en préparant le Master Energie.
+        </p>
+        <a href="#experiences" class="cta-button">Voir mon parcours</a>
+    </section>
+
+    <section id="competences">
+        <h2 class="reveal">Compétences & Atouts</h2>
+        <div class="skills-container">
+            
+            <div class="skill-card reveal">
+                <h3>Compétences Techniques</h3>
+                <div class="skill-tags">
+                    <span class="tag">Langage C</span>
+                    <span class="tag">Matlab</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">CAO (Inventor)</span>
+                    <span class="tag">Génie Électrique</span>
+                    <span class="tag">Technologies Hydrogène</span>
+                    <span class="tag">Électrochimie</span>
+                    <span class="tag">Photovoltaïque</span>
+                </div>
+            </div>
+
+            <div class="skill-card reveal">
+                <h3>Atouts Majeurs</h3>
+                <ul>
+                    <li><i class="fas fa-rocket" style="color: var(--accent-primary);"></i> Dynamisme</li>
+                    <li><i class="fas fa-lightbulb" style="color: var(--accent-primary);"></i> Prise d'initiatives</li>
+                    <li><i class="fas fa-search" style="color: var(--accent-primary);"></i> Esprit d'analyse et pensée critique</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--accent-primary);"></i> Résolution de problèmes</li>
+                </ul>
+            </div>
+
+            <div class="skill-card reveal">
+                <h3>Langues</h3>
+                <ul>
+                    <li><strong>Français:</strong> Niveau C2</li>
+                    <li><strong>Anglais:</strong> Bilingue</li>
+                    <li><strong>Espagnol:</strong> Bilingue</li>
+                    <li><strong>Allemand:</strong> Niveau A2</li>
+                </ul>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="experiences">
+        <h2 class="reveal">Expériences Professionnelles</h2>
+        <div class="timeline">
+
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <h3>Professeur des Cours Particulier</h3>
+                    <div class="date">Septembre 2025 - Présent</div>
+                    <div class="location">Anacours, Montpellier</div>
+                    <p>Cours à domicile en mathématiques (niveau 3ème), aide aux devoirs et préparation aux examens.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <h3>Stage Opératrice</h3>
+                    <div class="date">Mai 2024 - Juin 2024</div>
+                    <div class="location">L&L Products, Altorf</div>
+                    <p>Préparation et emballage de produits, réapprovisionnement, maintien du rythme de production et contrôles de conformité.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <h3>Extra Serveuse Polyvalente</h3>
+                    <div class="date">Septembre 2023 - Janvier 2024</div>
+                    <div class="location">Boma Hotel, Strasbourg</div>
+                    <p>Service à table en équipe et en plusieurs langues, service en chambre.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <h3>Polyvalente</h3>
+                    <div class="date">Août 2020 - Juillet 2021</div>
+                    <div class="location">Atria Retirement Canada, Calgary</div>
+                    <p>Accueil des résidents, services de restauration et facilitation du quotidien.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="formation">
+        <h2 class="reveal">Formation</h2>
+        <div class="timeline">
+
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <h3>Master Energie</h3>
+                    <div class="date">2025 - 2027</div>
+                    <div class="location">Université de Montpellier</div>
+                    <p>Gestion, Sources, Stockage, et Conversion d'Énergie. Focus sur électrochimie, thermique, géothermie et photovoltaïque.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <h3>Licence Sciences pour L'Ingénieur</h3>
+                    <div class="date">2022 - 2025</div>
+                    <div class="location">Université de Strasbourg</div>
+                    <p>Mention Mécanique et Génie Industriel. Projets en C, Matlab, Python. Modélisation CAO sur Inventor.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    
+    <section id="projets">
+        <h2 class="reveal">Projets & Bénévolat</h2>
+        <div class="projects-grid">
+            
+            <div class="project-card reveal">
+                <h3>Projet : Système d'Arrosage Intelligent</h3>
+                <p>Élaboration d'un système intelligent d'arrosage avec Arduino en Langage C.</p>
+            </div>
+            
+            <div class="project-card reveal">
+                <h3>Projet : Maquette Pédagogique</h3>
+                <p>Conception et production d'une maquette pédagogique d'un système d'encre à escapement.</p>
+            </div>
+            
+            <div class="project-card reveal">
+                <h3>Bénévolat (2018-2021, Calgary)</h3>
+                <ul>
+                    <li><strong>Banque Alimentaire:</strong> Préparation de paniers alimentaires.</li>
+                    <li><strong>Feed The Hungry:</strong> Distribution de repas gratuits.</li>
+                    <li><strong>Bibliothèque Publique:</strong> Mentorat en littérature pour enfants.</li>
+                </ul>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="reveal">Contact</h2>
+        <p class="reveal">N'hésitez pas à me contacter pour toute opportunité de stage ou pour échanger.</p>
+        <div class="contact-links reveal">
+            <a href="mailto:Aixa.sf1@gmail.com">
+                <i class="fas fa-envelope"></i>
+                <span>Aixa.sf1@gmail.com</span>
+            </a>
+            <a href="https://www.linkedin.com/in/aixa-fernandez-624a96277" target="_blank">
+                <i class="fab fa-linkedin"></i>
+                <span>LinkedIn</span>
+            </a>
+            <a href="tel:0750719799">
+                <i class="fas fa-phone"></i>
+                <span>07 50 71 97 99</span>
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Logique pour l'animation au défilement
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Sélectionner tous les éléments à animer
+            const elementsToReveal = document.querySelectorAll('.reveal');
+
+            // 2. Créer l'observateur d'intersection
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // Si l'élément est dans la vue
+                    if (entry.isIntersecting) {
+                        // Ajouter la classe 'is-visible' pour déclencher l'animation
+                        entry.target.classList.add('is-visible');
+                        // Optionnel: arrêter d'observer cet élément après l'animation
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1 // Déclenche quand 10% de l'élément est visible
+            });
+
+            // 3. Demander à l'observateur de surveiller chaque élément
+            elementsToReveal.forEach(element => {
+                revealObserver.observe(element);
+            });
+        });
+    </script>
+
+</body>
+</html>
